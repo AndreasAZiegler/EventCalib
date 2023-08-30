@@ -23,4 +23,5 @@ target_link_libraries(BsplineSO3_test PUBLIC
         system
         simulator
         bundle_adjustment
+        fmt::fmt
         )
