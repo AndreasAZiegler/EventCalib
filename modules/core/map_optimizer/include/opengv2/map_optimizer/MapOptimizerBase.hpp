@@ -5,6 +5,7 @@
 #ifndef OPENGV2_MAPOPTIMIZERBASE_HPP
 #define OPENGV2_MAPOPTIMIZERBASE_HPP
 
+#include <condition_variable>
 #include <opengv2/map/MapBase.hpp>
 #include <opengv2/bundle_adjustment/BundleAdjustmentBase.hpp>
 #include <opengv2/viewer/ViewerBase.hpp>

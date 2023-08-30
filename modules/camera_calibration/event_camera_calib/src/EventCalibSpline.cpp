@@ -240,7 +240,7 @@ bool opengv2::EventCalibSpline::optimize() {
     options.function_tolerance = Sophus::Constants<double>::epsilon();
     options.linear_solver_type = ceres::SPARSE_NORMAL_CHOLESKY;
     options.num_threads = std::thread::hardware_concurrency() - 2;
-    options.num_linear_solver_threads = std::thread::hardware_concurrency() - 2;
+    // options.num_linear_solver_threads = std::thread::hardware_concurrency() - 2;
 
     // Solve
     ceres::Solver::Summary summary;
@@ -375,7 +375,8 @@ void opengv2::EventCalibSpline::reduceMap() {
     double t_similarThreshold = (circleRadius_) * (circleRadius_); // squared L2 distance
 
     std::unordered_map<double, std::vector<std::pair<int, std::pair<int, int>>>> similarityMap;
-    std::vector<std::pair<size_t, double>> t_IndicesDists, R_IndicesDists;
+    std::vector<std::pair<size_t, double>> t_IndicesDists;
+    std::vector<std::pair<unsigned int, double>> R_IndicesDists;
     for (int splineIdx = 0; splineIdx < sampleIdSets_.size(); ++splineIdx) {
         for (int subIdx = 0; subIdx < sampleIdSets_[splineIdx].size(); ++subIdx) {
             if (erased[sampleIdSets_[splineIdx][subIdx]])

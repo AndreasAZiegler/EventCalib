@@ -152,7 +152,7 @@ void opengv2::SplineBundleAdjustmentV2::optimize(ceres::Problem &problem,
     options.linear_solver_ordering.reset(ordering);
     options.linear_solver_type = ceres::SPARSE_SCHUR;
     //options.minimizer_progress_to_stdout = true;
-    options.num_linear_solver_threads = 3;
+    // options.num_linear_solver_threads = 3;
     options.num_threads = 3;
     ceres::Solver::Summary summary;
     ceres::Solve(options, &problem, &summary);

@@ -1,4 +1,5 @@
 # EventCameraCalib, TODO: multi-spline over different direction (such as PTAM)
+find_package(fmt)
 add_library(event_camera_calib SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/src/CirclesEventFrame.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/EventCalibIni.cpp
@@ -16,6 +17,7 @@ target_link_libraries(event_camera_calib PUBLIC
         cv_calib
         event
         dbscan
+        fmt::fmt
         )
 
 # test
