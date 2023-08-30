@@ -7,6 +7,9 @@
 
 #include <opengv2/event/EventStream.hpp>
 
+#include <metavision/sdk/driver/camera.h>
+#include <metavision/sdk/base/events/event_cd.h>
+
 opengv2::EventStream::EventStream(const std::string &binFilePath) {
     is_.open(binFilePath, std::ifstream::binary | std::ifstream::in);
     if (is_.is_open()) {
@@ -64,4 +67,37 @@ void opengv2::EventStream::txt2bin(const std::string &txtFilePath, double timeMa
     } else {
         throw std::invalid_argument("No such file: " + txtFilePath);
     }
+}
+
+void opengv2::EventStream::raw2bin(const std::string &rawFilePath) {
+    Metavision::Camera cam = Metavision::Camera::from_file(rawFilePath);
+
+    auto lastIndex = rawFilePath.find_last_of('.');
+    std::ofstream os(rawFilePath.substr(0, lastIndex) + ".bin",
+                     std::ofstream::binary | std::ofstream::out | std::ofstream::trunc);
+    cam.cd().add_callback([&os](const Metavision::EventCD *begin, const Metavision::EventCD *end) {
+
+    double t;
+    double x;
+    double y;
+    bool polarity;
+    for (const Metavision::EventCD *ev = begin; ev != end; ++ev) {
+      t = ev->t /*us*/ / 1e6; // Convert time from [us] to [s]
+      x = ev->x;
+      y = ev->y;
+      polarity = ev->p;
+
+      os.write((char *) &t, sizeof(t));
+      os.write((char *) &x, sizeof(x));
+      os.write((char *) &y, sizeof(y));
+      os.write((char *) &polarity, sizeof(polarity));
+    }
+  });
+
+    cam.start();
+
+    while (cam.is_running()) {}
+
+    cam.stop();
+    os.close();
 }

@@ -43,6 +43,8 @@ namespace opengv2 {
                             long long timeBase_in = std::numeric_limits<long long>::min(),
                             long long endTime_in = std::numeric_limits<long long>::min());
 
+        static void raw2bin(const std::string &rawFilePath);
+
     protected:
         std::ifstream is_;
         std::istream_iterator<Event> istreamIterator_;

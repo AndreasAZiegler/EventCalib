@@ -1,3 +1,5 @@
+find_package(MetavisionSDK COMPONENTS core driver REQUIRED)
+
 add_library(event SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/src/EventStream.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/EventFrame.cpp
@@ -11,11 +13,15 @@ target_include_directories(event PUBLIC
 
 target_link_libraries(event PUBLIC
         frame
+        MetavisionSDK::core MetavisionSDK::driver
         )
 
 # tool
 add_executable(txt2bin ${CMAKE_CURRENT_SOURCE_DIR}/tool/txt2bin.cpp)
 target_link_libraries(txt2bin event)
+
+add_executable(raw2bin ${CMAKE_CURRENT_SOURCE_DIR}/tool/raw2bin.cpp)
+target_link_libraries(raw2bin event)
 
 # test
 add_executable(unit_test_event ${CMAKE_CURRENT_SOURCE_DIR}/test/unit_test.cpp)
