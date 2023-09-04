@@ -3,18 +3,20 @@
 # Data Parameters
 #--------------------------------------------------------------------------------------------
 # Time where to begin (second)
-StartTime: 0
+StartTime: 25
 
-EndTime: 85
+EndTime: 30
 
 # The smallest time step (second), the time span of virtual frame is its multiple.
 # It needs to be tuned w.r.t virtual frame image ('eventImage' in CirclesEventFrame),
 # (Note: Set multithreading thread num to 1, when debugging.
 # There are commented codes for debug in modules/camera_calibration/event_camera_calib/test/eventCameraCalib.cpp.)
-MotionTimeStep: 5e-4
+# MotionTimeStep: 5e-4
+MotionTimeStep: 2e-3
 
 # Maximum event limit in a virtual frame, need to be tuned w.r.t virtual frame image ('eventImage' in CirclesEventFrame).
-FrameEventNumThreshold: 4000
+#FrameEventNumThreshold: 4000
+FrameEventNumThreshold: 100000
 
 #--------------------------------------------------------------------------------------------
 # Camera Parameters. Adjust them!
@@ -65,7 +67,8 @@ Fix_K5: 1
 # can be tuned w.r.t virtual frame image ('clusterImage' in CirclesEventFrame)
 #--------------------------------------------------------------------------------------------
 # DBSCAN parameter: epsilon or in other words, radius (pixel unit)
-dbscan_eps: 4
+# dbscan_eps: 4
+dbscan_eps: 3
 
 # DBSCAN parameter: minimal number of points in epsilon radius, then the point is cluster core point
 dbscan_startMinSample: 2
@@ -77,7 +80,7 @@ clusterMinSample: 5
 knn_num: 3
 
 # Check circle fitting quality or not. When there are lots of noise, set to false(0).
-fitCircle: 0
+fitCircle: 1
 
 #--------------------------------------------------------------------------------------------
 # Spline Parameters
