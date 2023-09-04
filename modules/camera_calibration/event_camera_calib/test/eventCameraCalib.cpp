@@ -54,6 +54,17 @@ public:
                 int events_num = frame->eventsNum();
 
                 if (frame->extractFeatures()) {
+                    std::cout << "Feature extraction successful" << std::endl;
+                    if (frame->circleExtractionImage.empty())
+                        continue;
+                    cv::namedWindow("Debug_check: CircleExtractionImage");
+                    cv::imshow("Debug_check: CircleExtractionImage", frame->circleExtractionImage);
+                    if (frame->detectionImage.empty())
+                        continue;
+                    cv::namedWindow("Debug_check: DetectionImage");
+                    cv::imshow("Debug_check: DetectionImage", frame->detectionImage);
+                    cv::waitKey();
+
                     frames.push_back(frame);
                     Bodyframe::Ptr bf = make_shared<Bodyframe>(frames, (duration.first + duration.second) / 2);
 
@@ -80,17 +91,21 @@ public:
                         duration.second += motionTimeStep;
                     }
 
-                    /*// DEBUG: Set 'threadNum = 1' and uncomment this code to tune parameters
+                    // DEBUG: Set 'threadNum = 1' and uncomment this code to tune parameters
                     std::cout << events_num << " events." << std::endl;
                     if (frame->eventImage.empty())
                         continue;
                     cv::namedWindow("Debug_check: EventImage");
                     cv::imshow("Debug_check: EventImage", frame->eventImage);
-                    //if (frame->clusterImage.empty())
-                    //    continue;
-                    //cv::namedWindow("Debug_check: clusterImage");
-                    //cv::imshow("Debug_check: clusterImage", frame->clusterImage);
-                    cv::waitKey();*/
+                    if (frame->clusterImage.empty())
+                       continue;
+                    cv::namedWindow("Debug_check: clusterImage");
+                    cv::imshow("Debug_check: clusterImage", frame->clusterImage);
+                    if (frame->detectionImage.empty())
+                        continue;
+                    cv::namedWindow("Debug_check: DetectionImage");
+                    cv::imshow("Debug_check: DetectionImage", frame->detectionImage);
+                    cv::waitKey();
                 }
             }
         }
@@ -169,7 +184,8 @@ int main(int argc, char **argv) {
     double len = 3 * motionTimeStep;
     double frameGap = 5 * motionTimeStep;
     CirclesEventFrame::Params params(fsSettings);
-    auto threadNum = std::thread::hardware_concurrency() - 2;
+    // auto threadNum = std::thread::hardware_concurrency() - 2;
+    auto threadNum = 1;
     auto pieceNum = 5 * threadNum;
     double step = (endTime - startTime) / pieceNum;
     std::vector<std::pair<double, double>> timeBoundSet;

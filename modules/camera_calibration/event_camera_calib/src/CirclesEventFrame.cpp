@@ -146,7 +146,7 @@ bool opengv2::CirclesEventFrame::extractFeatures() {
         n_centers.push_back(nCluster[nCluster.size() / 2]);
     }
 
-    /*// draw cluster centers
+    // draw cluster centers
     for (auto center: p_centers) {
         cv::Point loc(positiveEvents_[center][0], positiveEvents_[center][1]);
         cv::circle(image_, loc, 2, cv::Vec3b(255, 255, 255));
@@ -154,7 +154,7 @@ bool opengv2::CirclesEventFrame::extractFeatures() {
     for (auto center: n_centers) {
         cv::Point loc(negativeEvents_[center][0], negativeEvents_[center][1]);
         cv::circle(image_, loc, 2, cv::Vec3b(255, 255, 255));
-    }*/
+    }
 
     // building k-d tree
     vectorofEigenMatrix<Eigen::Vector2d> pCenters(p_centers.size()), nCenters(n_centers.size());
@@ -334,8 +334,8 @@ bool opengv2::CirclesEventFrame::extractFeatures() {
     if (!isFound)
         isFound = cv::findCirclesGrid(points, cv::Size(pattern_->cols, pattern_->rows), outCenters,
                                       cv::CALIB_CB_ASYMMETRIC_GRID | cv::CALIB_CB_CLUSTERING);
-    /*if (isFound)
-        circleExtractionImage = image_.clone();*/
+    if (isFound)
+        circleExtractionImage = image_.clone();
     drawChessboardCorners(image_, cv::Size(pattern_->cols, pattern_->rows), cv::Mat(outCenters), isFound);
     if (isFound) {
         KDTreeVectorOfVectorsAdaptor<vectorofEigenMatrix<Eigen::Vector2d>, double, 2, nanoflann::metric_L2_Simple>
@@ -352,8 +352,9 @@ bool opengv2::CirclesEventFrame::extractFeatures() {
             features_.push_back(std::make_shared<CalibCircle>(candidateCenters[idx], candidatesRadius[idx]));
         }
 
-        //detectionImage = image_.clone();
+        // detectionImage = image_.clone();
     }
+    detectionImage = image_.clone();
 
     return isFound;
 }

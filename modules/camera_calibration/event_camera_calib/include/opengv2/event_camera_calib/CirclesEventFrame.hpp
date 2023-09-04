@@ -65,7 +65,7 @@ namespace opengv2 {
         }
 
         // DEBUG
-        //cv::Mat circleExtractionImage, detectionImage;
+        cv::Mat circleExtractionImage, detectionImage;
         cv::Mat eventImage, clusterImage;
 
     protected:
